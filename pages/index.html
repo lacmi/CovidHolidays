@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang=fr>
+<head>
+    <title>LachanceNet</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        button {
+            /* background-color: #559eda; */
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            padding: 2mm;
+            cursor: pointer;
+            box-shadow: 2px 2px black;
+        }
+
+        button:active {
+            filter: brightness(0.8);
+        }
+
+        .display-content {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            margin: 2mm 0;
+        }
+
+        .page-header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 4mm 0;
+        }
+
+        .page-header-title {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* .show-post-form-button {
+        
+        } */
+
+        .post-form-container {
+            padding: 4mm;
+            border-radius: 5px;
+            /* background-color: rgba(176, 196, 222, 0.9); */
+            margin: 1mm 0;
+            display: flex;
+            flex-direction: column;
+            max-height: 50vh;
+            display: none;
+            overflow: hidden;
+        }
+
+        .post-form-title {
+            margin: 0 0 4mm 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        .post-title-input-container {
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        .post-title-input {
+            width: 100%;
+            border: 0;
+            padding: 2mm;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: larger;
+            /* background-color: rgba(146, 162, 184, 0.9); */
+        }
+
+        .post-title-input::placeholder {
+            color: #555e6c;
+            font-weight: normal;
+        }
+
+        .post-title-input:focus {
+            outline: none;
+        }
+
+        .post-image-input-container {
+            /* background-color: rgba(146, 162, 184, 0.9); */
+            padding: 2mm;
+            flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 0;
+            min-height: 0;
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-form-image-preview {
+            display: none;
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+            flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 0;
+            min-height: 0;
+        }
+
+        .post-image-input-footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin: 2mm 0 0 0;
+        }
+
+        .post-text-input-container {
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        .post-text-input {
+            width: 100%;
+            border: 0;
+            resize: none;
+            font-size: larger;
+            font-family: inherit;
+            padding: 2mm;
+            box-sizing: border-box;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            font-weight: normal;
+            margin: 0;
+            /* background-color: rgba(146, 162, 184, 0.9); */
+        }
+
+        .post-text-input::placeholder {
+            color: #555e6c;
+        }
+
+        .post-text-input:focus {
+            outline: none;
+        }
+
+        .post-form-warning {
+            flex-grow: 0;
+            flex-shrink: 0;
+            color: red;
+            font-style: italic;
+            margin: 2mm 0;
+        }
+
+        .post-form-footer {
+            margin: 2mm 0 0 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .post-form-submit-button {
+            margin: 0 4mm 0 0;
+            flex-grow: 0;
+            flex-shrink: 0;
+        }
+
+        .posts-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 8mm 0 0 0;
+        }
+
+        .post-container {
+            display: flex;
+            flex-direction: column;
+            /* background-color: rgba(176, 196, 222, 0.9); */
+            border: 1px solid black;
+            border-radius: 5px;
+            margin: 8mm 0;
+            padding: 4mm;
+            max-height: 80vh;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .post-title {
+            display: none;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin: 0 0 2mm 0;
+        }
+
+        .post-text-container {
+            display: none;
+            margin: 2mm 0;
+        }
+
+        .post-text {
+            flex-grow: 0;
+            flex-shrink: 0;
+            font-size: larger;
+        }
+
+        .post-image-container {
+            display: none;
+            flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 0;
+            min-height: 0;
+            margin: 2mm auto;
+            text-align: center;
+        }
+
+        .post-image {
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+        }
+
+        .post-footer {
+            flex-grow: 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 2mm 0 0 0;
+            font-style: italic;
+            color: dimgrey;
+        }
+    </style>
+</head>
+<body>
+    <div class="display-content">
+        <div class="main-content">
+
+            <div class="page-header">
+                <h1 class="page-header-title">LachanceNet</h1>
+                <button type="button" name="show-post-form-button" class="show-post-form-button">Ajouter une publication!</button>
+            </div>
+
+            <form enctype="multipart/form-data" method="POST" name="post_form" class="post-form-container">
+                <!-- <h3 class="post-form-title">Ajouter une publication!</h3> -->
+                <div class="post-title-input-container">
+                    <input type="text" name="post_title" class="post-title-input" placeholder="Titre"/>
+                </div>
+                <div class="post-image-input-container">
+                    <img name="post-form-image-preview" class="post-form-image-preview"/>
+                    <div class="post-image-input-footer">
+                        <button type="button" name="post-image-input-button">Sélectionner une image</button>
+                        <input type="file" accept="image/*" name="post_image" style="display: none;"/>
+                    </div>
+                </div>
+                <div class="post-text-input-container">
+                    <textarea name="post_text" class="post-text-input" placeholder="Message"></textarea>
+                </div>
+                <div class="post-form-warning">
+                    Attention, une fois publiée, une publication ne peut plus être supprimée!
+                </div>
+                <div class="post-form-footer">
+                    <button type="submit" name="post_form_submit_button" class="post-form-submit-button">Publier!</button>
+                    <button type="reset" name="post-form-reset-button">Annuler</button>
+                </div>
+            </form>
+
+            <div id="posts-container" class="posts-container"></div>
+
+        </div>
+    </div>
+
+    <template id="post-template">
+        <div class="post-container">
+            <h2 name="post-title" class="post-title"></h2>
+            <div name="post-image-container" class="post-image-container">
+                <img name="post-image" class="post-image">
+            </div>
+            <div name="post-text-container" class="post-text-container">
+                <span name="post-text" class="post-text"></span>
+            </div>
+            <div class="post-footer">
+                <span name="post-author"></span>
+                <span name="post-time"></span>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        const post_form = document.forms.namedItem('post_form');
+        const post_image_input = post_form.querySelector('[name="post_image"]');
+        post_image_input.addEventListener('change', (event) => {
+            if (post_image_input.files && post_image_input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = (event) => {
+                    const post_form_image_preview = post_form.querySelector('[name="post-form-image-preview"]');
+                    post_form_image_preview.setAttribute('src', event.target.result);
+                    post_form_image_preview.style.display = 'block';
+                }
+                reader.readAsDataURL(post_image_input.files[0]);
+            }
+        });
+        const post_image_input_button = post_form.querySelector('[name="post-image-input-button"]');
+        post_image_input_button.addEventListener('click', (event) => {
+            post_image_input.click();
+        });
+        post_form.addEventListener('submit', (event) => {
+            let formdata = new FormData(post_form);
+            if (formdata.get('post_image') || formdata.get('post_text')) {
+                let req = new XMLHttpRequest();
+                req.open('POST', '/post', true);
+                req.send(formdata);
+                post_form.reset();
+                post_form.style.display = 'none';
+            } else {
+                alert('Mets au moins une image ou un message!');
+            }
+            event.preventDefault();
+        }, false);
+        post_form.addEventListener('reset', (event) => {
+            post_image_input.value = '';
+            const post_form_image_preview = post_form.querySelector('[name="post-form-image-preview"]');
+            post_form_image_preview.setAttribute('src', '#');
+            post_form_image_preview.style.display = 'none';
+            post_form.style.display = 'none';
+        });
+
+        const show_post_form_button = document.querySelector('[name="show-post-form-button"]');
+        show_post_form_button.addEventListener('click', (event) => {
+            post_form.style.display = 'flex';
+        });
+
+        function get_post_element(post) {
+            const post_element = document.getElementById('post-template').content.cloneNode(true);
+            let post_author = post_element.querySelector('[name="post-author"]');
+            post_author.innerHTML = post.author;
+            let post_time = post_element.querySelector('[name="post-time"]');
+            post_time.innerHTML = post.time;
+            if (post.title) {
+                let post_title = post_element.querySelector('[name="post-title"]');
+                post_title.style.display = 'block';
+                post_title.innerHTML = post.title;
+            }
+            if (post.image) {
+                let post_image_container = post_element.querySelector('[name="post-image-container"]');
+                post_image_container.style.display = 'block';
+                let post_image = post_element.querySelector('[name="post-image"]');
+                post_image.setAttribute('src', `/post/${post.id}/image`);
+            }
+            if (post.text) {
+                let post_text_container = post_element.querySelector('[name="post-text-container"]');
+                post_text_container.style.display = 'block';
+                let post_text = post_element.querySelector('[name="post-text"]');
+                post_text.innerHTML = post.text;
+            }
+            return post_element;
+        };
+
+        let req = new XMLHttpRequest();
+        req.open('GET', '/posts', true);
+        req.addEventListener('load', (event) => {
+            let posts = JSON.parse(req.response);
+            const posts_container = document.getElementById('posts-container');
+            posts.forEach((post) => {
+                posts_container.append(get_post_element(post));
+            });
+        });
+        req.send();
+
+        const socket = new WebSocket(`ws://${window.location.hostname}`);
+        socket.addEventListener('message', (event) => {
+            const message = JSON.parse(event.data);
+            const operation = message.op;
+            switch (operation) {
+                case 'NEW_POST':
+                    let req = new XMLHttpRequest();
+                    req.open('GET', `/post/${message.post_id}`, true);
+                    req.addEventListener('load', (event) => {
+                        let post = JSON.parse(req.response);
+                        const posts_container = document.getElementById('posts-container');
+                        posts_container.prepend(get_post_element(post));
+                    });
+                    req.send();
+                    break;
+                default:
+                    console.log('Unexpected WebSocket message:', message);
+                    break;
+            }            
+        });
+    </script>
+</body>
+</html>

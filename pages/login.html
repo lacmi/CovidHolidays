@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang=fr>
+<head>
+    <title>LachanceNet - login</title>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+        }
+
+        button {
+            /* background-color: #559eda; */
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            padding: 2mm;
+            cursor: pointer;
+            box-shadow: 2px 2px black;
+        }
+
+        button:active {
+            filter: brightness(0.8);
+        }
+
+        .display-content {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            width: 70%;
+            margin: 2mm 0;
+        }
+
+        .title {
+            padding: 10px;
+        }
+
+        .error-message-box {
+            background-color: rgba(211, 91, 91, 0.7);
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+        }
+
+        .login-box {
+            padding: 10px;
+            width: min-content;
+        }
+
+        .login-box div {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="display-content">
+        <div class="main-content">
+            <h1 class="title">LachanceNet</h1>
+
+            <div class="error-message-box"></div>
+            
+            <form class="login-box" method="POST">
+                <div>
+                    <label for="username">Nom d'utilisateur:</label>
+                    <input id="username" name="username" type="text" required>
+                </div>
+                <div>
+                    <label for="password">Mot de passe:</label>
+                    <input id="password" name="password" type="password" required>
+                </div>
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let params = new URLSearchParams(document.location.search);
+        if (params.get("unauthorized-access") === "") {
+            let error_message_box_elem = document.getElementsByClassName("error-message-box")[0];
+            let message_elem = document.createElement("span");
+            message_elem.innerHTML = "Veuillez vous connecter.";
+            error_message_box_elem.appendChild(message_elem);
+            error_message_box_elem.style.setProperty("display", "block"); 
+        }
+        if (params.get("invalid-login") === "") {
+            let error_message_box_elem = document.getElementsByClassName("error-message-box")[0];
+            let message_elem = document.createElement("span");
+            message_elem.innerHTML = "Identifiants invalides.";
+            error_message_box_elem.appendChild(message_elem);
+            error_message_box_elem.style.setProperty("display", "block"); 
+        }
+    </script>
+</body>
+</html>
