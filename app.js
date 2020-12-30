@@ -39,13 +39,14 @@ wsServer.on('connection', (socket) => {
 });
 
 app.use(morgan('common'));
-app.use(helmet({
-    contentSecurityPolicy: {
+app.use(helmet.contentSecurityPolicy({
         directives: {
-            scriptSrc: ["'self'", "'unsafe-inline'"]
+            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+            "script-src": ["'self'", "'unsafe-inline'"],
+            "connect-src": ["'self'", "ws:"]
         }
-    }
-}));
+    })
+);
 app.use(cookie_session({
     cookie: {
         path: '/',
