@@ -2,11 +2,7 @@
 Real time shared feed to share moments during isolated covid holidays!
 
 ## TODO
-* use https
-* use wss
 * authenticate websocket
-* use secure cookies
-* enable all helmet middleware
 
 ## Bonus TODO
 * check if submitted file is really an image

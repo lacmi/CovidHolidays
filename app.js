@@ -39,15 +39,12 @@ wsServer.on('connection', (socket) => {
 });
 
 app.use(morgan('common'));
-app.use(helmet({
-    contentSecurityPolicy: false,
-    hsts: false
-}));
+app.use(helmet());
 app.use(cookie_session({
     cookie: {
         path: '/',
         httpOnly: true,
-        secure: false,
+        secure: true,
         maxAge: 43200000,
         sameSite: true
     },

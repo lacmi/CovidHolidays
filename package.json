@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "start": "DEBUG=express:* node app.js"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {

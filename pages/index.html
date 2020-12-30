@@ -394,7 +394,7 @@
         });
         req.send();
 
-        const socket = new WebSocket(`ws://${window.location.hostname}`);
+        const socket = new WebSocket(`wss://${window.location.hostname}`);
         socket.addEventListener('message', (event) => {
             const message = JSON.parse(event.data);
             const operation = message.op;
