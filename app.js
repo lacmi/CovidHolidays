@@ -63,10 +63,6 @@ app.use(cookie_session({
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(express.static(public_dir));
-app.use(app.router);
-app.use((req, res, next) => {
-    res.redirect('/');
-});
 
 let authenticator = function (req, res, next) {
     const token = req.session.authToken;
@@ -245,6 +241,9 @@ app.post('/post', authenticator, upload.single('post_image'), post_post_validato
         }
     );
     res.status(201).end();
+});
+app.all('*', authenticator, (req, res) => {
+    res.status(404).redirect('/');
 });
 
 
