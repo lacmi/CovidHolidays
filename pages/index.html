@@ -12,13 +12,16 @@
         }
 
         button {
-            /* background-color: #559eda; */
+            background-color: khaki;
             border: none;
             outline: none;
             border-radius: 5px;
             padding: 2mm;
             cursor: pointer;
-            box-shadow: 2px 2px black;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        }
+        button:hover {
+            filter: brightness(1.1);
         }
 
         button:active {
@@ -32,6 +35,7 @@
             flex-direction: column;
             align-items: center;
             overflow: auto;
+            background-color: antiquewhite;
         }
 
         .main-content {
@@ -59,20 +63,30 @@
 
         .post-form-container {
             padding: 4mm;
-            border-radius: 5px;
-            /* background-color: rgba(176, 196, 222, 0.9); */
+            border-radius: 10px;
+            background-color: ivory;
             margin: 1mm 0;
             display: flex;
             flex-direction: column;
             max-height: 50vh;
             display: none;
             overflow: hidden;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
         }
 
         .post-form-title {
             margin: 0 0 4mm 0;
             flex-grow: 0;
             flex-shrink: 0;
+        }
+
+        .post-form-inputs-container {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background-color: wheat;
+            border-radius: 10px;
+            box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.5);
         }
 
         .post-title-input-container {
@@ -90,7 +104,7 @@
             font-family: inherit;
             font-weight: 700;
             font-size: larger;
-            /* background-color: rgba(146, 162, 184, 0.9); */
+            background-color: transparent;
         }
 
         .post-title-input::placeholder {
@@ -103,7 +117,7 @@
         }
 
         .post-image-input-container {
-            /* background-color: rgba(146, 162, 184, 0.9); */
+            background-color: transparent;
             padding: 2mm;
             flex-grow: 1;
             flex-shrink: 1;
@@ -156,7 +170,7 @@
             border-bottom-right-radius: 5px;
             font-weight: normal;
             margin: 0;
-            /* background-color: rgba(146, 162, 184, 0.9); */
+            background-color: transparent;
         }
 
         .post-text-input::placeholder {
@@ -201,15 +215,15 @@
         .post-container {
             display: flex;
             flex-direction: column;
-            /* background-color: rgba(176, 196, 222, 0.9); */
-            border: 1px solid black;
-            border-radius: 5px;
+            background-color: ivory;
+            border-radius: 10px;
             margin: 8mm 0;
             padding: 4mm;
             max-height: 80vh;
             width: 100%;
             box-sizing: border-box;
             overflow: hidden;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
         }
 
         .post-title {
@@ -270,18 +284,20 @@
 
             <form enctype="multipart/form-data" method="POST" name="post_form" class="post-form-container">
                 <!-- <h3 class="post-form-title">Ajouter une publication!</h3> -->
-                <div class="post-title-input-container">
-                    <input type="text" name="post_title" class="post-title-input" placeholder="Titre"/>
-                </div>
-                <div class="post-image-input-container">
-                    <img name="post-form-image-preview" class="post-form-image-preview"/>
-                    <div class="post-image-input-footer">
-                        <button type="button" name="post-image-input-button">Sélectionner une image</button>
-                        <input type="file" accept="image/*" name="post_image" style="display: none;"/>
+                <div class="post-form-inputs-container">
+                    <div class="post-title-input-container">
+                        <input type="text" name="post_title" class="post-title-input" placeholder="Titre"/>
                     </div>
-                </div>
-                <div class="post-text-input-container">
-                    <textarea name="post_text" class="post-text-input" placeholder="Message"></textarea>
+                    <div class="post-image-input-container">
+                        <img name="post-form-image-preview" class="post-form-image-preview"/>
+                        <div class="post-image-input-footer">
+                            <button type="button" name="post-image-input-button">Sélectionner une image</button>
+                            <input type="file" accept="image/*" name="post_image" style="display: none;"/>
+                        </div>
+                    </div>
+                    <div class="post-text-input-container">
+                        <textarea name="post_text" class="post-text-input" placeholder="Message"></textarea>
+                    </div>
                 </div>
                 <div class="post-form-warning">
                     Attention, une fois publiée, une publication ne peut plus être supprimée!

@@ -12,17 +12,26 @@
         }
 
         button {
-            /* background-color: #559eda; */
+            background-color: khaki;
             border: none;
             outline: none;
             border-radius: 5px;
             padding: 2mm;
             cursor: pointer;
-            box-shadow: 2px 2px black;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        }
+        button:hover {
+            filter: brightness(1.1);
         }
 
         button:active {
             filter: brightness(0.8);
+        }
+
+        input {
+            appearance: none;
+            border: none;
+            background-color: transparent;
         }
 
         .display-content {
@@ -32,12 +41,14 @@
             flex-direction: column;
             align-items: center;
             overflow: auto;
+            background-color: antiquewhite;
         }
 
         .main-content {
             display: flex;
             flex-direction: column;
             width: 70%;
+            height: 100%;
             margin: 2mm 0;
         }
 
@@ -46,19 +57,37 @@
         }
 
         .error-message-box {
-            background-color: rgba(211, 91, 91, 0.7);
+            background-color: salmon;
             border-radius: 10px;
-            padding: 10px;
+            padding: 4mm;
             display: none;
+            margin: 0 0 4mm 0;
         }
 
         .login-box {
-            padding: 10px;
+            margin: 0 auto;
+            padding: 4mm;
             width: min-content;
+            border-radius: 10px;
+            background-color: ivory;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
         }
 
-        .login-box div {
-            margin: 10px 0;
+        .inputs-container {
+            background-color: wheat;
+            box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 4mm;
+        }
+
+        .inputs-separator {
+            width: 70%;
+            color: navajowhite;
+            margin: 2mm auto;
+        }
+
+        .submit-button {
+            margin: 4mm 0 0 0;
         }
     </style>
 </head>
@@ -66,19 +95,15 @@
     <div class="display-content">
         <div class="main-content">
             <h1 class="title">LachanceNet</h1>
-
-            <div class="error-message-box"></div>
             
             <form class="login-box" method="POST">
-                <div>
-                    <label for="username">Nom d'utilisateur:</label>
-                    <input id="username" name="username" type="text" required>
+                <div class="error-message-box"></div>
+                <div class="inputs-container">
+                    <input id="username" name="username" type="text" placeholder="Nom d'utilisateur" required>
+                    <hr class="inputs-separator">
+                    <input id="password" name="password" type="password" placeholder="Mot de passe" required>
                 </div>
-                <div>
-                    <label for="password">Mot de passe:</label>
-                    <input id="password" name="password" type="password" required>
-                </div>
-                <button type="submit">Se connecter</button>
+                <button type="submit" class="submit-button">Se connecter</button>
             </form>
         </div>
     </div>
