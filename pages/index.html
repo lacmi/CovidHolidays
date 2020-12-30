@@ -409,6 +409,9 @@
                     });
                     req.send();
                     break;
+                case 'ADMIN_BROADCAST':
+                    alert(message.message);
+                    break;
                 default:
                     console.log('Unexpected WebSocket message:', message);
                     break;

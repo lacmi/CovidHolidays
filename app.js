@@ -31,6 +31,16 @@ wsServer.on('connection', (socket) => {
         message = JSON.parse(message);
         const operation = message.op;
         switch (operation) {
+            case 'ADMIN_BROADCAST':
+                wsServer.clients.forEach((client) => {
+                    if (client.readyState === ws.OPEN) {
+                        client.send(JSON.stringify({
+                            op: 'ADMIN_BROADCAST',
+                            message: message.message
+                        }));
+                    }
+                });
+                break;
             default:
                 console.log('Unexpected WebSocket message:', message);
                 break;
