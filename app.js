@@ -63,6 +63,10 @@ app.use(cookie_session({
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(express.static(public_dir));
+app.use(app.router);
+app.use((req, res, next) => {
+    res.redirect('/');
+});
 
 let authenticator = function (req, res, next) {
     const token = req.session.authToken;
