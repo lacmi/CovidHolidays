@@ -38,6 +38,8 @@ wsServer.on('connection', (socket) => {
     });
 });
 
+app.set('trust proxy', true);
+
 app.use(morgan('common'));
 app.use(helmet.contentSecurityPolicy({
         directives: {
