@@ -334,13 +334,17 @@
         const post_image_input = post_form.querySelector('[name="post_image"]');
         post_image_input.addEventListener('change', (event) => {
             if (post_image_input.files && post_image_input.files[0]) {
-                let reader = new FileReader();
-                reader.onload = (event) => {
-                    const post_form_image_preview = post_form.querySelector('[name="post-form-image-preview"]');
-                    post_form_image_preview.setAttribute('src', event.target.result);
-                    post_form_image_preview.style.display = 'block';
+                if (post_image_input.files[0].size > 5 * 1024 * 1024) {
+                    alert(`Ton image est trop grande (${((post_image_input.files[0].size/1024)/1024).toFixed(2)} MB). Ça va ralentir le site...\nJ'accepte les images de moins de 5 MB.`);
+                } else {
+                    let reader = new FileReader();
+                    reader.onload = (event) => {
+                        const post_form_image_preview = post_form.querySelector('[name="post-form-image-preview"]');
+                        post_form_image_preview.setAttribute('src', event.target.result);
+                        post_form_image_preview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(post_image_input.files[0]);
                 }
-                reader.readAsDataURL(post_image_input.files[0]);
             }
         });
         const post_image_input_button = post_form.querySelector('[name="post-image-input-button"]');
