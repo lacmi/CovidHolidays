@@ -377,12 +377,21 @@
             post_form.style.display = 'flex';
         });
 
+        function get_date_text(epoch_number) {
+            const date = new Date(epoch_number);
+            return date.getFullYear() + '-' +
+                   ('0' + (date.getMonth() + 1)).slice(-2) + '-' +
+                   ('0' + (date.getDate())).slice(-2) + ', ' +
+                   ('0' + (date.getHours())).slice(-2) + ':' + 
+                   ('0' + (date.getMinutes())).slice(-2);
+        };
+
         function get_post_element(post) {
             const post_element = document.getElementById('post-template').content.cloneNode(true);
             let post_author = post_element.querySelector('[name="post-author"]');
             post_author.innerHTML = post.author;
             let post_time = post_element.querySelector('[name="post-time"]');
-            post_time.innerHTML = post.time;
+            post_time.innerHTML = get_date_text(post.time);
             if (post.title) {
                 let post_title = post_element.querySelector('[name="post-title"]');
                 post_title.style.display = 'block';
@@ -404,7 +413,7 @@
         };
 
         let req = new XMLHttpRequest();
-        req.open('GET', '/posts', true);
+        req.open('GET', `/posts/${Date.now()}`, true);
         req.addEventListener('load', (event) => {
             let posts = JSON.parse(req.response);
             const posts_container = document.getElementById('posts-container');

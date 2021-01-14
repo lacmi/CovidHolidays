@@ -119,16 +119,24 @@ let get_post_validator = function (req, res, next) {
         invalid = true;
     }
     if (invalid) {
-        console.log('Invalid post request.');
+        console.log('Invalid get post request.');
         res.status(400).end();
     } else {
         next();
     }
 };
 
-let get_date_text = function (epoch_number) {
-    const date = new Date(epoch_number);
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}, ${date.getHours()}:${date.getMinutes()}`;
+let get_posts_validator = function (req, res, next) {
+    let invalid = false;
+    if (isNaN(req.params.time) && isNaN(parseFloat(req.params.time))) {
+        invalid = true;
+    }
+    if (invalid) {
+        console.log('Invalid get posts request.');
+        res.status(400).end();
+    } else {
+        next();
+    }
 };
 
 
@@ -153,8 +161,12 @@ app.post('/login', (req,res) => {
 app.get('/', authenticator, (req, res) => {
     res.sendFile(path.join(__dirname, pages_dir, 'index.html'));
 });
-app.get('/posts', authenticator, (req, res) => {
-    db.all(`select post_id, post_time, post_author, post_title, post_text, post_image_mimetype from posts order by post_time desc`, (error, rows) => {
+app.get('/posts/:time', authenticator, get_posts_validator, (req, res) => {
+    db.all('select post_id, post_time, post_author, post_title, post_text, post_image_mimetype ' +
+           'from posts ' +
+           `where post_time < ${req.params.time} ` +
+           'order by post_time desc ' +
+           'limit 10', (error, rows) => {
         if (error) {
             console.log('Error retrieving posts:', error);
             res.status(500).end();
@@ -163,7 +175,7 @@ app.get('/posts', authenticator, (req, res) => {
             rows.forEach((row) => {
                 posts.push({
                     id: row.post_id,
-                    time: get_date_text(row.post_time),
+                    time: row.post_time,
                     author: row.post_author,
                     title: row.post_title,
                     text: row.post_text,
@@ -174,6 +186,27 @@ app.get('/posts', authenticator, (req, res) => {
         }
     });
 });
+// app.get('/posts', authenticator, (req, res) => {
+//     db.all(`select post_id, post_time, post_author, post_title, post_text, post_image_mimetype from posts order by post_time desc`, (error, rows) => {
+//         if (error) {
+//             console.log('Error retrieving posts:', error);
+//             res.status(500).end();
+//         } else {
+//             let posts = [];
+//             rows.forEach((row) => {
+//                 posts.push({
+//                     id: row.post_id,
+//                     time: get_date_text(row.post_time),
+//                     author: row.post_author,
+//                     title: row.post_title,
+//                     text: row.post_text,
+//                     image: (row.post_image_mimetype !== null)
+//                 });
+//             });
+//             res.send(posts);
+//         }
+//     });
+// });
 app.get('/post/:post_id', authenticator, get_post_validator, (req, res) => {
     db.get(`select post_id, post_time, post_author, post_title, post_text, post_image_mimetype from posts where post_id = ${req.params.post_id}`, (error, row) => {
         if (error) {
@@ -182,7 +215,7 @@ app.get('/post/:post_id', authenticator, get_post_validator, (req, res) => {
         } else if (row) {
             res.send({
                 id: row.post_id,
-                time: get_date_text(row.post_time),
+                time: row.post_time,
                 author: row.post_author,
                 title: row.post_title,
                 text: row.post_text,
