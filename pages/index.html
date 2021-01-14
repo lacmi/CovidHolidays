@@ -271,6 +271,10 @@
             font-style: italic;
             color: dimgrey;
         }
+
+        .get-more-posts-button {
+            margin: 8mm auto;
+        }
     </style>
 </head>
 <body>
@@ -310,6 +314,8 @@
 
             <div id="posts-container" class="posts-container"></div>
 
+            <button name="get-more-posts-button" class="get-more-posts-button">Charger plus!</button>
+
         </div>
     </div>
 
@@ -330,6 +336,9 @@
     </template>
 
     <script>
+        let oldest_post_time = Date.now();
+
+
         const post_form = document.forms.namedItem('post_form');
         const post_image_input = post_form.querySelector('[name="post_image"]');
         post_image_input.addEventListener('change', (event) => {
@@ -377,6 +386,21 @@
             post_form.style.display = 'flex';
         });
 
+        const get_more_posts_button = document.querySelector('[name="get-more-posts-button"]');
+        get_more_posts_button.addEventListener('click', (event) => {
+            let req = new XMLHttpRequest();
+            req.open('GET', `/posts/${oldest_post_time}`, true);
+            req.addEventListener('load', (event) => {
+                let posts = JSON.parse(req.response);
+                const posts_container = document.getElementById('posts-container');
+                posts.forEach((post) => {
+                    posts_container.append(get_post_element(post));
+                    oldest_post_time = post.time;
+                });
+            });
+            req.send();
+        });
+
         function get_date_text(epoch_number) {
             const date = new Date(epoch_number);
             return date.getFullYear() + '-' +
@@ -419,6 +443,7 @@
             const posts_container = document.getElementById('posts-container');
             posts.forEach((post) => {
                 posts_container.append(get_post_element(post));
+                oldest_post_time = post.time;
             });
         });
         req.send();
